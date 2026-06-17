@@ -27,10 +27,6 @@
                             </div>
                         </div>
 
-                        <div class="d-flex flex-wrap gap-3 small text-white-50">
-                            <span>Админ: admin@admin.com / admin</span>
-                            <span>Клиент: customer@admin.com / customer</span>
-                        </div>
                     </div>
                 </div>
 
@@ -110,7 +106,7 @@
 
                             <div class="small text-muted">
                                 <div class="fw-semibold mb-1">Подсказка</div>
-                                Админ попадает в раздел управления, клиент сразу в каталог.
+                                Бог любит яблоки
                             </div>
                         </div>
                     </div>

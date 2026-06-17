@@ -8,9 +8,7 @@
                         <span class="admin-chip">{{ $orders->count() }} заказов</span>
                     </div>
                     <h1 class="display-6 fw-bold mb-2 admin-section-title">Заказы магазина</h1>
-                    <p class="mb-0 text-white-50">
-                        Просматривайте клиентов, суммы и состав заказов без лишнего шума.
-                    </p>
+                    <p class="mb-0 text-white-50">Клиенты, суммы и состав заказов.</p>
                 </div>
                 <div class="d-flex flex-wrap gap-2">
                     <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-light btn-lg">Панель</a>

@@ -10,9 +10,7 @@
                     <h1 class="display-6 fw-bold mb-2 admin-section-title">
                         {{ $product->exists ? 'Редактирование товара' : 'Добавить новый товар' }}
                     </h1>
-                    <p class="mb-0 text-white-50">
-                        Аккуратная карточка товара с формой и быстрым списком каталога.
-                    </p>
+                    <p class="mb-0 text-white-50">Форма товара и быстрый список каталога.</p>
                 </div>
                 <div class="d-flex flex-wrap gap-2">
                     <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-light btn-lg">Панель</a>
@@ -25,66 +23,111 @@
     <div class="row g-4">
         <div class="col-xl-5">
             <div class="admin-card p-4 h-100">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <div>
-                        <h2 class="h4 fw-semibold mb-1">{{ $product->exists ? 'Изменить товар' : 'Новый товар' }}</h2>
-                        <div class="admin-soft">Заполните поля и сохраните изменения</div>
-                    </div>
-                    @if ($product->exists)
+                @if (($viewMode ?? 'create') === 'view')
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <h2 class="h4 fw-semibold mb-1">Просмотр товара</h2>
+                            <div class="admin-soft">Карточка без формы редактирования</div>
+                        </div>
                         <span class="badge text-bg-success">ID {{ $product->id }}</span>
-                    @endif
-                </div>
-
-                <form method="POST" action="{{ $product->exists ? route('admin.products.update', $product) : route('admin.products.store') }}" class="vstack gap-3">
-                    @csrf
-                    @if ($product->exists)
-                        @method('PATCH')
-                    @endif
-
-                    <div>
-                        <label for="name" class="form-label">Название</label>
-                        <input id="name" name="name" type="text" class="form-control admin-input" value="{{ old('name', $product->name) }}" required>
                     </div>
 
-                    <div>
-                        <label for="description" class="form-label">Описание</label>
-                        <textarea id="description" name="description" rows="5" class="form-control admin-textarea" required>{{ old('description', $product->description) }}</textarea>
-                    </div>
-
-                    <div>
-                        <label for="image" class="form-label">Ссылка на изображение</label>
-                        <input id="image" name="image" type="url" class="form-control admin-input" value="{{ old('image', $product->image) }}" placeholder="https://...">
-                    </div>
-
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label for="price" class="form-label">Цена</label>
-                            <input id="price" name="price" type="number" step="0.01" class="form-control admin-input" value="{{ old('price', $product->price) }}" required>
+                    <div class="vstack gap-3">
+                        <div>
+                            <div class="text-white-50 small">Название</div>
+                            <div class="fw-semibold">{{ $product->name }}</div>
                         </div>
-                        <div class="col-md-6">
-                            <label for="stock_quantity" class="form-label">Количество</label>
-                            <input id="stock_quantity" name="stock_quantity" type="number" class="form-control admin-input" value="{{ old('stock_quantity', $product->stock_quantity) }}" required>
+                        <div>
+                            <div class="text-white-50 small">Описание</div>
+                            <div>{{ $product->description }}</div>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="text-white-50 small">Цена</div>
+                                <div class="fw-semibold">{{ number_format((float) $product->price, 2, '.', ' ') }} ₽</div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="text-white-50 small">Остаток</div>
+                                <div class="fw-semibold">{{ $product->stock_quantity }}</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="text-white-50 small">Изображение</div>
+                            <div class="text-break">{{ $product->image ?: 'Не задано' }}</div>
+                        </div>
+                        <div>
+                            <div class="text-white-50 small">Статус</div>
+                            <span class="badge {{ $product->is_available ? 'text-bg-success' : 'text-bg-secondary' }}">
+                                {{ $product->is_available ? 'В продаже' : 'Скрыт' }}
+                            </span>
+                        </div>
+                        <div class="d-flex flex-wrap gap-2 pt-2">
+                            <a href="{{ route('admin.products.edit', $product) }}" class="btn btn-warning btn-lg">Править</a>
+                            <a href="{{ route('admin.products.index') }}" class="btn btn-outline-light btn-lg">К списку</a>
                         </div>
                     </div>
-
-                    <div class="form-check">
-                        <input id="is_available" type="checkbox" class="form-check-input" name="is_available" value="1" @checked(old('is_available', $product->is_available))>
-                        <label class="form-check-label" for="is_available">Доступен для покупки</label>
+                @else
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <h2 class="h4 fw-semibold mb-1">{{ $product->exists ? 'Изменить товар' : 'Новый товар' }}</h2>
+                            <div class="admin-soft">Заполните поля и сохраните изменения</div>
+                        </div>
+                        @if ($product->exists)
+                            <span class="badge text-bg-success">ID {{ $product->id }}</span>
+                        @endif
                     </div>
 
-                    <div class="d-flex flex-wrap gap-2 pt-2">
-                        <button type="submit" class="btn btn-warning btn-lg">
-                            {{ $product->exists ? 'Сохранить' : 'Создать' }}
-                        </button>
-                    </div>
-                </form>
-
-                @if ($product->exists)
-                    <form class="mt-3" method="POST" action="{{ route('admin.products.destroy', $product) }}" onsubmit="return confirm('Удалить товар?')">
+                    <form method="POST" action="{{ $product->exists ? route('admin.products.update', $product) : route('admin.products.store') }}" class="vstack gap-3">
                         @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-outline-light btn-lg">Удалить</button>
+                        @if ($product->exists)
+                            @method('PATCH')
+                        @endif
+
+                        <div>
+                            <label for="name" class="form-label">Название</label>
+                            <input id="name" name="name" type="text" class="form-control admin-input" value="{{ old('name', $product->name) }}" required>
+                        </div>
+
+                        <div>
+                            <label for="description" class="form-label">Описание</label>
+                            <textarea id="description" name="description" rows="5" class="form-control admin-textarea" required>{{ old('description', $product->description) }}</textarea>
+                        </div>
+
+                        <div>
+                            <label for="image" class="form-label">Ссылка на изображение</label>
+                            <input id="image" name="image" type="url" class="form-control admin-input" value="{{ old('image', $product->image) }}" placeholder="https://...">
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="price" class="form-label">Цена</label>
+                                <input id="price" name="price" type="number" step="0.01" class="form-control admin-input" value="{{ old('price', $product->price) }}" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="stock_quantity" class="form-label">Количество</label>
+                                <input id="stock_quantity" name="stock_quantity" type="number" class="form-control admin-input" value="{{ old('stock_quantity', $product->stock_quantity) }}" required>
+                            </div>
+                        </div>
+
+                        <div class="form-check">
+                            <input id="is_available" type="checkbox" class="form-check-input" name="is_available" value="1" @checked(old('is_available', $product->is_available))>
+                            <label class="form-check-label" for="is_available">Доступен для покупки</label>
+                        </div>
+
+                        <div class="d-flex flex-wrap gap-2 pt-2">
+                            <button type="submit" class="btn btn-warning btn-lg">
+                                {{ $product->exists ? 'Сохранить' : 'Создать' }}
+                            </button>
+                        </div>
                     </form>
+
+                    @if ($product->exists)
+                        <form class="mt-3" method="POST" action="{{ route('admin.products.destroy', $product) }}" onsubmit="return confirm('Удалить товар?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-outline-light btn-lg">Удалить</button>
+                        </form>
+                    @endif
                 @endif
             </div>
         </div>

@@ -5,9 +5,9 @@
                 <div class="d-flex flex-column flex-lg-row justify-content-between gap-4 align-items-lg-center">
                     <div class="pe-lg-5">
                         <span class="badge rounded-pill text-bg-light text-dark mb-3 px-3 py-2">Only Store</span>
-                        <h1 class="display-5 fw-bold mb-3">Главное меню покупателя</h1>
+                        <h1 class="display-5 fw-bold mb-3">Главное меню</h1>
                         <p class="lead text-white-50 mb-0">
-                            Здесь собраны каталог, профиль и быстрые переходы к покупкам. Всё без лишних кликов.
+                            Здесь собраны каталог, профиль и быстрые переходы к покупкам.
                         </p>
                     </div>
                     <div class="d-flex flex-wrap gap-2">
@@ -78,6 +78,14 @@
                             </span>
                             <a href="{{ route('products.show', $product->slug) }}" class="btn btn-outline-primary btn-sm">Подробнее</a>
                         </div>
+
+                        <form method="POST" action="{{ route('cart.add', $product) }}" class="mt-3">
+                            @csrf
+                            <input type="hidden" name="quantity" value="1">
+                            <button type="submit" class="btn btn-primary btn-sm w-100" @disabled(! $product->is_available || $product->stock_quantity <= 0)>
+                                {{ $product->is_available && $product->stock_quantity > 0 ? 'В корзину' : 'Недоступен' }}
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>

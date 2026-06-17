@@ -13,6 +13,7 @@ class AdminProductController extends Controller
         return view('admin.products', [
             'product' => new Product(),
             'products' => Product::latest()->get(),
+            'viewMode' => 'create',
         ]);
     }
 
@@ -26,12 +27,17 @@ class AdminProductController extends Controller
         return view('admin.products', [
             'product' => $product,
             'products' => Product::latest()->get(),
+            'viewMode' => 'view',
         ]);
     }
 
     public function edit(Product $product)
     {
-        return $this->show($product);
+        return view('admin.products', [
+            'product' => $product,
+            'products' => Product::latest()->get(),
+            'viewMode' => 'edit',
+        ]);
     }
 
     public function store(Request $request)
