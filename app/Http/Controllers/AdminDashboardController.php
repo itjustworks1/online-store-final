@@ -15,8 +15,12 @@ class AdminDashboardController extends Controller
         $count_order = Order::count();
         $count_user = User::count();
         $last_orders = Order::latest()->limit(5)->get();
-        $products = Product::all()->where('stock_quantity', '<=', 5);
-//        dd($products);
+        $products = Product::query()
+            ->where('stock_quantity', '<=', 5)
+            ->orderBy('stock_quantity')
+            ->limit(6)
+            ->get();
+
         return view('admin.dashboard', compact('count_product', 'count_order', 'count_user', 'last_orders', 'products'));
     }
 }

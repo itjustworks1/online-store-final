@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f766e"/>
+      <stop offset="100%" stop-color="#14b8a6"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" rx="48" fill="url(#bg)"/>
+  <rect x="220" y="100" width="360" height="440" rx="34" fill="#dbeafe"/>
+  <rect x="248" y="132" width="304" height="360" rx="16" fill="#111827"/>
+  <circle cx="400" cy="510" r="12" fill="#94a3b8"/>
+  <text x="400" y="560" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" fill="#ffffff">Tablet</text>
+</svg>
