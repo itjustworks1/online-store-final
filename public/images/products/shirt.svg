@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#064e3b"/>
+      <stop offset="100%" stop-color="#14b8a6"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" rx="48" fill="url(#bg)"/>
+  <path d="M290 140 L400 100 L510 140 L570 220 L520 260 L520 470 L280 470 L280 260 L230 220 Z" fill="#f8fafc"/>
+  <path d="M345 140 L400 190 L455 140" fill="none" stroke="#cbd5e1" stroke-width="18" stroke-linecap="round"/>
+  <text x="400" y="560" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" fill="#ffffff">Shirt</text>
+</svg>
