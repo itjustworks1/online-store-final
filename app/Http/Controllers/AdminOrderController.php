@@ -10,20 +10,21 @@ class AdminOrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::all();
-        $order_items = Order_item::all();
+        $orders = Order::with(['user', 'order_items.product'])->latest()->get();
+        $order_items = Order_item::with(['order', 'product'])->latest()->get();
+
         return view('admin.orders', compact('orders', 'order_items'));
     }
+
     public function update(Request $request)
     {
-
     }
+
     public function show(Request $request)
     {
-
     }
+
     public function updateStatus(Request $request)
     {
-
     }
 }

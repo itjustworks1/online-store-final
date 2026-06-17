@@ -4,9 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $title ?? config('app.name', 'Online Store') }}</title>
+    <title>{{ $title ?? config('app.name', 'Only Store') }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @endif
     <style>
         body {
             background:
@@ -78,7 +80,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
         <div class="container">
-            <a class="navbar-brand fw-semibold" href="{{ route('home') }}">Online Store</a>
+            <a class="navbar-brand fw-semibold" href="{{ route('dashboard') }}">Only Store</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -88,11 +90,6 @@
                         <a class="nav-link" href="{{ route('products.index') }}">Каталог</a>
                     </li>
                     @auth
-                        @can('access-admin-panel')
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('admin.dashboard') }}">Админка</a>
-                            </li>
-                        @endcan
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('profile.edit') }}">Профиль</a>
                         </li>

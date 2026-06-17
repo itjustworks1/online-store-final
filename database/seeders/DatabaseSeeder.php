@@ -21,29 +21,29 @@ class DatabaseSeeder extends Seeder
         $electronics = Category::query()->updateOrCreate([
             'slug' => 'electronics',
         ], [
-            'name' => 'Electronics',
-            'description' => 'Gadgets, devices and smart home items.',
+            'name' => 'Электроника',
+            'description' => 'Гаджеты, устройства и техника для умного дома.',
         ]);
 
         $fashion = Category::query()->updateOrCreate([
             'slug' => 'fashion',
         ], [
-            'name' => 'Fashion',
-            'description' => 'Clothing and everyday accessories.',
+            'name' => 'Одежда',
+            'description' => 'Одежда, обувь и повседневные аксессуары.',
         ]);
 
         $home = Category::query()->updateOrCreate([
             'slug' => 'home',
         ], [
-            'name' => 'Home',
-            'description' => 'Kitchen, home and lifestyle items.',
+            'name' => 'Дом и кухня',
+            'description' => 'Товары для дома, кухни и повседневной жизни.',
         ]);
 
         $smartphone = Product::query()->updateOrCreate([
             'slug' => 'smart-phone',
         ], [
-            'name' => 'Smartphone',
-            'description' => 'A modern smartphone with a bright screen and fast charging.',
+            'name' => 'Смартфон',
+            'description' => 'Современный смартфон с ярким экраном, быстрой зарядкой и хорошей камерой.',
             'price' => 499.99,
             'image' => 'images/products/smart-phone.svg',
             'stock_quantity' => 15,
@@ -54,8 +54,8 @@ class DatabaseSeeder extends Seeder
         $laptop = Product::query()->updateOrCreate([
             'slug' => 'laptop',
         ], [
-            'name' => 'Laptop',
-            'description' => 'Lightweight laptop for work, study and everyday tasks.',
+            'name' => 'Ноутбук',
+            'description' => 'Лёгкий ноутбук для работы, учёбы и повседневных задач.',
             'price' => 1299.00,
             'image' => 'images/products/laptop.svg',
             'stock_quantity' => 7,
@@ -66,8 +66,8 @@ class DatabaseSeeder extends Seeder
         $shirt = Product::query()->updateOrCreate([
             'slug' => 'shirt',
         ], [
-            'name' => 'Shirt',
-            'description' => 'Cotton shirt for daily wear and a neat look.',
+            'name' => 'Рубашка',
+            'description' => 'Хлопковая рубашка для повседневной носки и аккуратного образа.',
             'price' => 49.90,
             'image' => 'images/products/shirt.svg',
             'stock_quantity' => 30,
@@ -78,8 +78,8 @@ class DatabaseSeeder extends Seeder
         $mug = Product::query()->updateOrCreate([
             'slug' => 'ceramic-mug',
         ], [
-            'name' => 'Ceramic Mug',
-            'description' => 'A durable mug for coffee, tea and everyday use.',
+            'name' => 'Керамическая кружка',
+            'description' => 'Прочная кружка для кофе, чая и повседневного использования.',
             'price' => 14.50,
             'image' => 'images/products/ceramic-mug.svg',
             'stock_quantity' => 40,
@@ -90,8 +90,8 @@ class DatabaseSeeder extends Seeder
         $headphones = Product::query()->updateOrCreate([
             'slug' => 'wireless-headphones',
         ], [
-            'name' => 'Wireless Headphones',
-            'description' => 'Compact headphones with clear sound and long battery life.',
+            'name' => 'Беспроводные наушники',
+            'description' => 'Компактные наушники с чистым звуком и долгой работой от батареи.',
             'price' => 199.00,
             'image' => 'images/products/wireless-headphones.svg',
             'stock_quantity' => 22,
@@ -102,8 +102,8 @@ class DatabaseSeeder extends Seeder
         $tablet = Product::query()->updateOrCreate([
             'slug' => 'tablet',
         ], [
-            'name' => 'Tablet',
-            'description' => 'A convenient tablet for reading, movies and work on the go.',
+            'name' => 'Планшет',
+            'description' => 'Удобный планшет для чтения, фильмов и работы в дороге.',
             'price' => 799.00,
             'image' => 'images/products/tablet.svg',
             'stock_quantity' => 11,
@@ -114,8 +114,8 @@ class DatabaseSeeder extends Seeder
         $sneakers = Product::query()->updateOrCreate([
             'slug' => 'sneakers',
         ], [
-            'name' => 'Sneakers',
-            'description' => 'Lightweight sneakers for walks, sports and everyday wear.',
+            'name' => 'Кроссовки',
+            'description' => 'Лёгкие кроссовки для прогулок, спорта и повседневной носки.',
             'price' => 89.90,
             'image' => 'images/products/sneakers.svg',
             'stock_quantity' => 18,
@@ -126,8 +126,8 @@ class DatabaseSeeder extends Seeder
         $blender = Product::query()->updateOrCreate([
             'slug' => 'blender',
         ], [
-            'name' => 'Blender',
-            'description' => 'A practical blender for smoothies, sauces and home cooking.',
+            'name' => 'Блендер',
+            'description' => 'Практичный блендер для смузи, соусов и домашней кухни.',
             'price' => 129.50,
             'image' => 'images/products/blender.svg',
             'stock_quantity' => 9,

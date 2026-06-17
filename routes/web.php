@@ -7,13 +7,22 @@ use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [ProductController::class, 'index'])->name('home');
+Route::get('/', function () {
+    return view('auth.login');
+})->name('home');
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{product:slug}', [ProductController::class, 'show'])->name('products.show');
 
 Route::get('/home', function () {
+    $user = Auth::user();
+
+    if ($user && in_array($user->role, ['admin', 'order_manager'])) {
+        return redirect()->route('admin.dashboard');
+    }
+
     return view('home', [
         'products' => Product::latest()->get(),
     ]);
