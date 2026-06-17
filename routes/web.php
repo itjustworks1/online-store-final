@@ -4,30 +4,28 @@ use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\AdminProductController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-// Публичные маршруты
-Route::get('/', [ProductController::class, 'index'])->name('home');
-Route::get('/products/{product:slug}', [ProductController::class, 'show'])->name('products.show');
-
-// Корзина
-Route::prefix('cart')->name('cart.')->group(function () {
-    Route::get('/', [CartController::class, 'index'])->name('index');
-    Route::post('/add/{product}', [CartController::class, 'add'])->name('add');
-    Route::patch('/update/{cartItem}', [CartController::class, 'update'])->name('update');
-    Route::delete('/remove/{cartItem}', [CartController::class, 'remove'])->name('remove');
+//Route::get('/', [ProductController::class, 'index'])->name('home');
+Route::get('/', function () {
+    return view('welcome');
 });
+Route::get('/home', function () {
+    return view('home');
+})->middleware(['auth', 'verified'])->name('home');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+
+Route::get('/products/{product:slug}', [ProductController::class, 'show'])->name('products.show');
 
 // Аутентифицированные маршруты
 Route::middleware('auth')->group(function () {
-    // Оформление заказа
-    Route::get('/checkout', [OrderController::class, 'create'])->name('checkout');
-    Route::post('/checkout', [OrderController::class, 'store'])->name('checkout.store');
-    Route::get('/my-orders', [OrderController::class, 'myOrders'])->name('orders.my');
-    Route::get('/my-orders/{order}', [OrderController::class, 'show'])->name('orders.show');
 
     // Админка
     Route::prefix('admin')->name('admin.')->middleware('can:access-admin-panel')->group(function () {
@@ -38,3 +36,19 @@ Route::middleware('auth')->group(function () {
         Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     });
 });
+
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+//
+//Route::get('/dashboard', function () {
+//    return view('dashboard');
+//})->middleware(['auth', 'verified'])->name('dashboard');
+//
+//Route::middleware('auth')->group(function () {
+//    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+//});
+
+require __DIR__.'/auth.php';
