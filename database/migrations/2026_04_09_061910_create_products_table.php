@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->unique();
             $table->string('description');
-            $table->decimal('prise');
+            $table->decimal('price');
             $table->string('image')->nullable();
             $table->integer('stock_quantity');
             $table->boolean('is_available');

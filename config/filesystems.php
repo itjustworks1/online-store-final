@@ -38,11 +38,11 @@ return [
             'report' => false,
         ],
 
-        'public' => [
+        'products' => [
             'driver' => 'local',
-            'root' => storage_path('app/public'),
+            'root' => storage_path('app/products'),
             'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
-            'visibility' => 'public',
+            'visibility' => 'products',
             'throw' => false,
             'report' => false,
         ],
@@ -74,7 +74,7 @@ return [
     */
 
     'links' => [
-        public_path('storage') => storage_path('app/public'),
+        public_path('storage') => storage_path('app/products'),
     ],
 
 ];
