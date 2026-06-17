@@ -6,6 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title ?? config('app.name', 'Online Store') }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         body {
             background:
@@ -75,33 +76,63 @@
     @stack('styles')
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
-    <div class="container">
-        <a class="navbar-brand fw-semibold" href="{{ route('home') }}">Online Store</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('products.index') }}">Каталог</a>
-                </li>
-            </ul>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-semibold" href="{{ route('home') }}">Online Store</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('products.index') }}">Каталог</a>
+                    </li>
+                    @auth
+                        @can('access-admin-panel')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.dashboard') }}">Админка</a>
+                            </li>
+                        @endcan
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('profile.edit') }}">Профиль</a>
+                        </li>
+                    @endauth
+                </ul>
+
+                <div class="d-flex gap-2 align-items-center">
+                    @auth
+                        <span class="navbar-text text-white-50">{{ auth()->user()->name }}</span>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="btn btn-outline-light btn-sm">Выйти</button>
+                        </form>
+                    @else
+                        <a href="{{ route('login') }}" class="btn btn-outline-light btn-sm">Войти</a>
+                        <a href="{{ route('register') }}" class="btn btn-light btn-sm">Регистрация</a>
+                    @endauth
+                </div>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
-<main class="py-4">
-    <div class="container">
-        @if (session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
+    <main class="py-4">
+        <div class="container">
+            @if (session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
 
-        @yield('content')
-    </div>
-</main>
+            @isset($header)
+                <div class="mb-4">
+                    {{ $header }}
+                </div>
+            @endisset
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-@stack('scripts')
+            @yield('content')
+            {{ $slot ?? '' }}
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    @stack('scripts')
 </body>
 </html>

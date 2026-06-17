@@ -28,8 +28,6 @@ class ProductFactory extends Factory
             'image' => null,
             'stock_quantity' => fake()->numberBetween(0, 100),
             'is_available' => fake()->boolean(80),
-            'created_at' => now(),
-            'updated_at' => now(),
         ];
     }
 }

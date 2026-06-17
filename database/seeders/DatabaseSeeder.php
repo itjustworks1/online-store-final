@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,39 +18,32 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-//        User::factory()->create([
-//            'name' => 'Test User',
-//            'email' => 'test@example.com',
-//        ]);
-
         $electronics = Category::query()->updateOrCreate([
             'slug' => 'electronics',
         ], [
-            'name' => 'Электроника',
-            'description' => 'Гаджеты, техника и умные устройства для дома и работы.',
+            'name' => 'Electronics',
+            'description' => 'Gadgets, devices and smart home items.',
         ]);
 
         $fashion = Category::query()->updateOrCreate([
             'slug' => 'fashion',
         ], [
-            'name' => 'Одежда',
-            'description' => 'Повседневная одежда и аксессуары для разных сезонов.',
+            'name' => 'Fashion',
+            'description' => 'Clothing and everyday accessories.',
         ]);
 
         $home = Category::query()->updateOrCreate([
             'slug' => 'home',
         ], [
-            'name' => 'Дом',
-            'description' => 'Товары для кухни, быта и уютного интерьера.',
+            'name' => 'Home',
+            'description' => 'Kitchen, home and lifestyle items.',
         ]);
 
         $smartphone = Product::query()->updateOrCreate([
             'slug' => 'smart-phone',
         ], [
-            'name' => 'Смартфон',
-            'description' => 'Современный смартфон с ярким экраном, быстрой зарядкой и удобной камерой.',
+            'name' => 'Smartphone',
+            'description' => 'A modern smartphone with a bright screen and fast charging.',
             'price' => 499.99,
             'image' => 'images/products/smart-phone.svg',
             'stock_quantity' => 15,
@@ -60,8 +54,8 @@ class DatabaseSeeder extends Seeder
         $laptop = Product::query()->updateOrCreate([
             'slug' => 'laptop',
         ], [
-            'name' => 'Ноутбук',
-            'description' => 'Лёгкий ноутбук для работы, учёбы и повседневных задач.',
+            'name' => 'Laptop',
+            'description' => 'Lightweight laptop for work, study and everyday tasks.',
             'price' => 1299.00,
             'image' => 'images/products/laptop.svg',
             'stock_quantity' => 7,
@@ -72,8 +66,8 @@ class DatabaseSeeder extends Seeder
         $shirt = Product::query()->updateOrCreate([
             'slug' => 'shirt',
         ], [
-            'name' => 'Рубашка',
-            'description' => 'Хлопковая рубашка для повседневной носки и аккуратного образа.',
+            'name' => 'Shirt',
+            'description' => 'Cotton shirt for daily wear and a neat look.',
             'price' => 49.90,
             'image' => 'images/products/shirt.svg',
             'stock_quantity' => 30,
@@ -84,8 +78,8 @@ class DatabaseSeeder extends Seeder
         $mug = Product::query()->updateOrCreate([
             'slug' => 'ceramic-mug',
         ], [
-            'name' => 'Керамическая кружка',
-            'description' => 'Прочная кружка для кофе, чая и ежедневного использования.',
+            'name' => 'Ceramic Mug',
+            'description' => 'A durable mug for coffee, tea and everyday use.',
             'price' => 14.50,
             'image' => 'images/products/ceramic-mug.svg',
             'stock_quantity' => 40,
@@ -96,8 +90,8 @@ class DatabaseSeeder extends Seeder
         $headphones = Product::query()->updateOrCreate([
             'slug' => 'wireless-headphones',
         ], [
-            'name' => 'Беспроводные наушники',
-            'description' => 'Компактные наушники с чистым звуком и долгой автономной работой.',
+            'name' => 'Wireless Headphones',
+            'description' => 'Compact headphones with clear sound and long battery life.',
             'price' => 199.00,
             'image' => 'images/products/wireless-headphones.svg',
             'stock_quantity' => 22,
@@ -108,8 +102,8 @@ class DatabaseSeeder extends Seeder
         $tablet = Product::query()->updateOrCreate([
             'slug' => 'tablet',
         ], [
-            'name' => 'Планшет',
-            'description' => 'Удобный планшет для чтения, фильмов и работы в дороге.',
+            'name' => 'Tablet',
+            'description' => 'A convenient tablet for reading, movies and work on the go.',
             'price' => 799.00,
             'image' => 'images/products/tablet.svg',
             'stock_quantity' => 11,
@@ -120,8 +114,8 @@ class DatabaseSeeder extends Seeder
         $sneakers = Product::query()->updateOrCreate([
             'slug' => 'sneakers',
         ], [
-            'name' => 'Кроссовки',
-            'description' => 'Лёгкие кроссовки для прогулок, спорта и повседневной носки.',
+            'name' => 'Sneakers',
+            'description' => 'Lightweight sneakers for walks, sports and everyday wear.',
             'price' => 89.90,
             'image' => 'images/products/sneakers.svg',
             'stock_quantity' => 18,
@@ -132,13 +126,29 @@ class DatabaseSeeder extends Seeder
         $blender = Product::query()->updateOrCreate([
             'slug' => 'blender',
         ], [
-            'name' => 'Блендер',
-            'description' => 'Практичный блендер для смузи, соусов и домашних заготовок.',
+            'name' => 'Blender',
+            'description' => 'A practical blender for smoothies, sauces and home cooking.',
             'price' => 129.50,
             'image' => 'images/products/blender.svg',
             'stock_quantity' => 9,
             'is_available' => true,
         ]);
         $blender->categories()->syncWithoutDetaching([$home->id]);
+
+        User::query()->updateOrCreate([
+            'email' => 'admin@admin.com',
+        ], [
+            'name' => 'admin',
+            'password' => Hash::make('admin'),
+            'role' => 'admin',
+        ]);
+
+        User::query()->updateOrCreate([
+            'email' => 'customer@admin.com',
+        ], [
+            'name' => 'customer',
+            'password' => Hash::make('customer'),
+            'role' => 'customer',
+        ]);
     }
 }
