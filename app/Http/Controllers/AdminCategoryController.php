@@ -13,6 +13,7 @@ class AdminCategoryController extends Controller
         return view('admin.categories', [
             'category' => new Category(),
             'categories' => Category::query()->orderBy('name')->get(),
+            'viewMode' => 'create',
         ]);
     }
 
@@ -26,12 +27,17 @@ class AdminCategoryController extends Controller
         return view('admin.categories', [
             'category' => $category,
             'categories' => Category::query()->orderBy('name')->get(),
+            'viewMode' => 'view',
         ]);
     }
 
     public function edit(Category $category)
     {
-        return $this->show($category);
+        return view('admin.categories', [
+            'category' => $category,
+            'categories' => Category::query()->orderBy('name')->get(),
+            'viewMode' => 'edit',
+        ]);
     }
 
     public function store(Request $request)

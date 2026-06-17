@@ -58,7 +58,7 @@
 
                         <div class="col-md-6">
                             <label for="phone" class="form-label fw-semibold">Телефон</label>
-                            <input id="phone" name="phone" type="tel" class="form-control form-control-lg" value="{{ old('phone', $user->phone) }}" placeholder="+7 ...">
+                            <input id="phone" name="phone" type="tel" class="form-control form-control-lg" value="{{ old('phone', $user->phone) }}" placeholder="+7 999 123-45-67">
                             @error('phone')
                                 <div class="text-danger small mt-1">{{ $message }}</div>
                             @enderror
@@ -73,9 +73,6 @@
                         </div>
 
                         <div class="col-12 d-flex align-items-center justify-content-between flex-wrap gap-3 pt-2">
-                            <div class="text-muted small">
-                                {{ $user->role === 'admin' || $user->role === 'order_manager' ? 'Админский профиль' : 'Покупательский профиль' }}
-                            </div>
                             <button type="submit" class="btn btn-dark btn-lg">Сохранить</button>
                         </div>
                     </form>

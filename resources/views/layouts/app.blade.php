@@ -18,7 +18,9 @@
         }
         .filter-card,
         .catalog-card,
-        .detail-card {
+        .detail-card,
+        .cart-card,
+        .order-card {
             border: 0;
             border-radius: 1.25rem;
             box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
@@ -74,31 +76,67 @@
         .stat-pill {
             min-width: 120px;
         }
+        .nav-glass {
+            background: rgba(15, 23, 42, 0.94);
+            backdrop-filter: blur(18px);
+        }
+        .nav-link-pill {
+            border-radius: 999px;
+            padding: 0.45rem 0.85rem;
+        }
+        .cart-badge {
+            background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+            color: #fff;
+        }
+        .cart-badge:hover {
+            color: #fff;
+        }
+        .summary-card {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            border-radius: 1.25rem;
+        }
     </style>
     @stack('styles')
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+    @php($cartCount = app(\App\Services\ShoppingCartService::class)->count())
+
+    <nav class="navbar navbar-expand-lg navbar-dark nav-glass shadow-sm sticky-top">
         <div class="container">
-            <a class="navbar-brand fw-semibold" href="{{ route('dashboard') }}">Only Store</a>
+            <a class="navbar-brand fw-semibold" href="{{ route('products.index') }}">Only Store</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
+                <ul class="navbar-nav me-auto gap-lg-1">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('products.index') }}">Каталог</a>
+                        <a class="nav-link nav-link-pill {{ request()->routeIs('products.*') ? 'active bg-white text-dark' : '' }}" href="{{ route('products.index') }}">Каталог</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-pill position-relative {{ request()->routeIs('cart.*') ? 'active bg-white text-dark' : '' }}" href="{{ route('cart.index') }}">
+                            Корзина
+                            @if ($cartCount > 0)
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill cart-badge">{{ $cartCount }}</span>
+                            @endif
+                        </a>
                     </li>
                     @auth
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('profile.edit') }}">Профиль</a>
+                            <a class="nav-link nav-link-pill {{ request()->routeIs('orders.my') ? 'active bg-white text-dark' : '' }}" href="{{ route('orders.my') }}">Мои заказы</a>
                         </li>
+                        @if (in_array(auth()->user()->role, ['admin', 'order_manager'], true))
+                            <li class="nav-item">
+                                <a class="nav-link nav-link-pill {{ request()->routeIs('admin.dashboard') ? 'active bg-white text-dark' : '' }}" href="{{ route('admin.dashboard') }}">Админка</a>
+                            </li>
+                        @endif
                     @endauth
                 </ul>
 
                 <div class="d-flex gap-2 align-items-center">
                     @auth
-                        <span class="navbar-text text-white-50">{{ auth()->user()->name }}</span>
+                        <span class="navbar-text text-white-50 d-none d-md-inline">{{ auth()->user()->name }}</span>
+                        <a href="{{ route('profile.edit') }}" class="btn btn-outline-light btn-sm">Профиль</a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit" class="btn btn-outline-light btn-sm">Выйти</button>
@@ -115,7 +153,11 @@
     <main class="py-4">
         <div class="container">
             @if (session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
+                <div class="alert alert-success border-0 shadow-sm">{{ session('success') }}</div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-danger border-0 shadow-sm">{{ session('error') }}</div>
             @endif
 
             @isset($header)

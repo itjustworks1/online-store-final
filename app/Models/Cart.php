@@ -15,16 +15,20 @@ class Cart extends Model
     protected $fillable = [
         'user_id',
         'session_id',
-        'created_at',
-        'updated_at',
     ];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
-    public function cart_items(): HasMany
+
+    public function cartItems(): HasMany
     {
         return $this->hasMany(Cart_item::class);
+    }
+
+    public function cart_items(): HasMany
+    {
+        return $this->cartItems();
     }
 }

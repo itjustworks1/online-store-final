@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\User;
+use App\Rules\PhoneDigitsRule;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -36,7 +37,7 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
 //            'role' => ['required', 'enum', 'in:admin,order_manager,customer'],
-            'phone' => ['string', 'max:20', 'nullable'],
+            'phone' => ['nullable', 'string', 'max:20', new PhoneDigitsRule()],
         ]);
 
         $user = User::factory()->create([

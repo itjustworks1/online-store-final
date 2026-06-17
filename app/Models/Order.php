@@ -21,16 +21,20 @@ class Order extends Model
         'customer_email',
         'shipping_address',
         'comment',
-        'created_at',
-        'updated_at',
     ];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
-    public function order_items(): HasMany
+
+    public function orderItems(): HasMany
     {
         return $this->hasMany(Order_item::class);
+    }
+
+    public function order_items(): HasMany
+    {
+        return $this->orderItems();
     }
 }

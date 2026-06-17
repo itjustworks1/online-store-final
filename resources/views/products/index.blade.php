@@ -147,6 +147,14 @@
                                     @endforeach
                                 </div>
 
+                                <form method="POST" action="{{ route('cart.add', $product) }}" class="mb-2">
+                                    @csrf
+                                    <input type="hidden" name="quantity" value="1">
+                                    <button type="submit" class="btn btn-primary w-100" @disabled(! $product->is_available || $product->stock_quantity <= 0)>
+                                        {{ $product->is_available && $product->stock_quantity > 0 ? 'В корзину' : 'Недоступен' }}
+                                    </button>
+                                </form>
+
                                 <a href="{{ route('products.show', $product) }}" class="btn btn-outline-primary w-100">Подробнее</a>
                             </div>
                         </div>

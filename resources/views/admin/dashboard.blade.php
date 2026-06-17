@@ -8,9 +8,7 @@
                         <span class="admin-chip">Only Store</span>
                     </div>
                     <h1 class="display-6 fw-bold mb-2 admin-section-title">Панель управления магазином</h1>
-                    <p class="mb-0 text-white-50">
-                        Сводка по товарам, заказам и клиентам в одном месте.
-                    </p>
+                    <p class="mb-0 text-white-50">Панель управления магазином.</p>
                 </div>
                 <div class="d-flex flex-wrap gap-2">
                     <a href="{{ route('admin.products.index') }}" class="btn btn-warning btn-lg">Товары</a>

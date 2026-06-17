@@ -59,6 +59,17 @@
                                 Этот товар можно добавлять в корзину, фильтровать по категориям и использовать как часть витрины каталога.
                             </p>
                         </div>
+
+                        <form method="POST" action="{{ route('cart.add', $product) }}" class="mt-3 d-flex flex-wrap gap-2 align-items-end">
+                            @csrf
+                            <div>
+                                <label for="quantity" class="form-label small text-muted mb-1">Количество</label>
+                                <input type="number" id="quantity" name="quantity" value="1" min="1" max="{{ $product->stock_quantity }}" class="form-control">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg" @disabled(! $product->is_available || $product->stock_quantity <= 0)>
+                                {{ $product->is_available && $product->stock_quantity > 0 ? 'В корзину' : 'Недоступен' }}
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -94,6 +105,13 @@
                             <p class="text-muted small flex-grow-1 mb-3">
                                 {{ \Illuminate\Support\Str::limit($relatedProduct->description, 80) }}
                             </p>
+                            <form method="POST" action="{{ route('cart.add', $relatedProduct) }}" class="mb-2">
+                                @csrf
+                                <input type="hidden" name="quantity" value="1">
+                                <button type="submit" class="btn btn-sm btn-primary w-100" @disabled(! $relatedProduct->is_available || $relatedProduct->stock_quantity <= 0)>
+                                    {{ $relatedProduct->is_available && $relatedProduct->stock_quantity > 0 ? 'В корзину' : 'Недоступен' }}
+                                </button>
+                            </form>
                             <a href="{{ route('products.show', $relatedProduct) }}" class="btn btn-sm btn-outline-primary w-100">Открыть</a>
                         </div>
                     </div>
